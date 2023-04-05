@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -45,6 +46,8 @@ type BillingRequest struct {
 func main() {
 	router := gin.Default()
 
+	router.Use(cors.Default())
+
 	router.GET("/bills", getBillingRequest)
 
 	router.Run(":8080")
@@ -60,7 +63,7 @@ func getBillingRequest(c *gin.Context) {
 	req.Header.Set("APIKey", apiKey)
 	req.Header.Set("DataServiceVersion", "2.0")
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Access-Control-Allow-Origin", "https://aphale98.github.io/SapAPI/")
+	// req.Header.Set("Access-Control-Allow-Origin", "https://aphale98.github.io/SapAPI/")
 
 	client := http.Client{}
 	resp, err := client.Do(req)
