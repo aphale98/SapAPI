@@ -25,8 +25,8 @@ type BillingRequest struct {
 	// CAInvoicingDocument           string
 	// CABillgReqDescription         string
 	// CABillgReqStatus              string
-	CABillgReqTotalAmount float64 `json:"CABillgReqTotalAmount"`
-	// CABillgReqTotalAmountCurrency string
+	CABillgReqTotalAmount         float64 `json:"CABillgReqTotalAmount"`
+	CABillgReqTotalAmountCurrency string  `json:"CABillgReqTotalAmountCurrency"`
 	// CABillgReqCreationUser        string
 	// CABillgReqCreationDate        string
 	// CABillgReqCreationTime        string
@@ -87,8 +87,9 @@ func getBillingRequest(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"ID":               bill.CABillgReqDocument,
+		"InvoiceID":        bill.CABillgReqDocument,
 		"BusinessParterID": bill.BusinessPartner,
 		"Amount":           bill.CABillgReqTotalAmount,
+		"Currency":         bill.CABillgReqTotalAmountCurrency,
 	})
 }
