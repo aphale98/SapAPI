@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>My Website</title>
+	<title>API Example</title>
 </head>
 <body>
-	<h1>Invoice Details</h1>
-	<a href="http://localhost:8080/bills">Bill:</a>
+	<h1>API Example</h1>
+	<p id="response"></p>
+
+	<script>
+		fetch('http://localhost:8080/bills')
+			.then(response => response.json())
+			.then(data => {
+				document.getElementById('response').innerHTML = JSON.stringify(data);
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+	</script>
 </body>
 </html>
