@@ -1,45 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>API Example</title>
+    <title>API Response</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-	<h1>API Response:</h1>
-	<table id="apiResponseTable"></table>
-	<script>
-		// Make an HTTP request to the API endpoint
-		fetch("http://localhost:8080/bills")
-			.then(response => response.json())
-			.then(data => {
-				// Create an HTML table element
-				const table = document.createElement("table");
-				table.border = "1";
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>Invoice ID</th>
+                <th>Business Partner ID</th>
+                <th>Amount</th>
+                <th>Currency</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
-				// Add the table header row
-				const header = table.createTHead();
-				const headerRow = header.insertRow();
-				for (const key in data[0]) {
-					const th = document.createElement("th");
-					th.textContent = key;
-					headerRow.appendChild(th);
-				}
-
-				// Add the table data rows
-				const tbody = table.createTBody();
-				data.forEach(rowData => {
-					const row = tbody.insertRow();
-					for (const key in rowData) {
-						const cell = row.insertCell();
-						cell.textContent = rowData[key];
-					}
-				});
-
-				// Update the HTML element with the table
-				document.getElementById("apiResponseTable").appendChild(table);
-			})
-			.catch(error => {
-				console.error(error);
-			});
-	</script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "http://localhost:8080/bills",
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    data.forEach(function(item) {
+                        var row = $("<tr>");
+                        $("<td>").text(item.InvoiceID).appendTo(row);
+                        $("<td>").text(item.BusinessPartnerID).appendTo(row);
+                        $("<td>").text(item.Amount).appendTo(row);
+                        $("<td>").text(item.Currency).appendTo(row);
+                        $("#data-table tbody").append(row);
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
