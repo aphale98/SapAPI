@@ -90,10 +90,13 @@ func getBillingRequest(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"InvoiceID":        bill.CABillgReqDocument,
-		"BusinessParterID": bill.BusinessPartner,
-		"Amount":           bill.CABillgReqTotalAmount,
-		"Currency":         bill.CABillgReqTotalAmountCurrency,
-	})
+	bills, err := json.Marshal(bill)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println(string(bills))
+
+	c.JSON(http.StatusOK, string(bills))
 }

@@ -27,11 +27,12 @@
                 success: function(data) {
                     data.forEach(function(item) {
                         var row = $("<tr>");
-                        $("<td>").text(item.InvoiceID).appendTo(row);
-                        $("<td>").text(item.BusinessPartnerID).appendTo(row);
-                        $("<td>").text(item.Amount).appendTo(row);
-                        $("<td>").text(item.Currency).appendTo(row);
+                        $("<td>").text(item.CABillgReqDocument).appendTo(row);
+                        $("<td>").text(item.BusinessPartner).appendTo(row);
+                        $("<td>").text(item.CABillgReqTotalAmount).appendTo(row);
+                        $("<td>").text(item.CABillgReqTotalAmountCurrency).appendTo(row);
                         $("#data-table tbody").append(row);
+						console.log(data)
                     });
                 }
             });
