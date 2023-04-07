@@ -25,12 +25,17 @@
                 type: "GET",
                 dataType: "json",
                 success: function(data) {
+                    var response = JSON.parse(data);
                     data.forEach(function(item) {
                         var row = $("<tr>");
                         $("<td>").text(item.CABillgReqDocument).appendTo(row);
                         $("<td>").text(item.BusinessPartner).appendTo(row);
                         $("<td>").text(item.CABillgReqTotalAmount).appendTo(row);
                         $("<td>").text(item.CABillgReqTotalAmountCurrency).appendTo(row);
+                        $("<td>").text(item.InvoiceID).appendTo(row);
+                        $("<td>").text(item.BusinessPartnerID).appendTo(row);
+                        $("<td>").text(item.Amount).appendTo(row);
+                        $("<td>").text(item.Currency).appendTo(row);
                         $("#data-table tbody").append(row);
 						console.log(data);
                         console.log(item);
