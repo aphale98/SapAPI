@@ -26,7 +26,7 @@
                 dataType: "json",
                 success: function(data) {
                     var response = JSON.parse(data);
-                    data.forEach(function(item) {
+                    response.forEach(function(item) {
                         var row = $("<tr>");
                         $("<td>").text(item.CABillgReqDocument).appendTo(row);
                         $("<td>").text(item.BusinessPartner).appendTo(row);
