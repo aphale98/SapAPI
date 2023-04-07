@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -98,5 +99,7 @@ func getBillingRequest(c *gin.Context) {
 
 	fmt.Println(string(bills))
 
-	c.JSON(http.StatusOK, string(bills))
+	strArr := strings.Split(string(bills), ",")
+
+	c.JSON(http.StatusOK, strArr)
 }
