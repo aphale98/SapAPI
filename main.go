@@ -97,9 +97,8 @@ func getBillingRequest(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(string(bills))
+	strArr := strings.Split(string(bills), " ")
 
-	strArr := strings.Split(string(bills), ",")
-
+	fmt.Println(strArr)
 	c.JSON(http.StatusOK, strArr)
 }

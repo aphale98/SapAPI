@@ -4,12 +4,14 @@
     <title>API Response</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<body>
-    <table id="data-table">
+<body align="center">
+<h1>Invoice Details</h1>
+    <button id="display-table-btn">Get Bills</button>
+    <table id="data-table" style="border: 1px solid black;" align="center">
         <thead>
             <tr>
                 <th>Invoice ID</th>
-                <th>Business Partner ID</th>
+                <th>Business ID</th>
                 <th>Amount</th>
                 <th>Currency</th>
             </tr>
@@ -20,27 +22,25 @@
 
     <script>
         $(document).ready(function() {
-            $.ajax({
-                url: "http://localhost:8080/bills",
-                type: "GET",
-                dataType: "json",
-                success: function(data) {
-                    var response = JSON.parse(data);
-                    response.forEach(function(item) {
-                        var row = $("<tr>");
-                        $("<td>").text(item.CABillgReqDocument).appendTo(row);
-                        $("<td>").text(item.BusinessPartner).appendTo(row);
-                        $("<td>").text(item.CABillgReqTotalAmount).appendTo(row);
-                        $("<td>").text(item.CABillgReqTotalAmountCurrency).appendTo(row);
-                        $("<td>").text(item.InvoiceID).appendTo(row);
-                        $("<td>").text(item.BusinessPartnerID).appendTo(row);
-                        $("<td>").text(item.Amount).appendTo(row);
-                        $("<td>").text(item.Currency).appendTo(row);
-                        $("#data-table tbody").append(row);
-						console.log(data);
-                        console.log(item);
-                    });
-                }
+            $("#display-table-btn").click(function() {
+                $.ajax({
+                    url: "http://localhost:8080/bills",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        var data = response.map(function(str) {
+                            return JSON.parse(str);
+                        });
+                        data.forEach(function(item) {
+                            var row = $("<tr>");
+                            $("<td>").text(item.CABillgReqDocument).appendTo(row);
+                            $("<td>").text(item.BusinessPartner).appendTo(row);
+                            $("<td>").text(item.CABillgReqTotalAmount).appendTo(row);
+                            $("<td>").text(item.CABillgReqTotalAmountCurrency).appendTo(row);
+                            $("#data-table tbody").append(row);
+                        });
+                    }
+                });
             });
         });
     </script>
