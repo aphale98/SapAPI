@@ -4,17 +4,41 @@
 	<title>API Example</title>
 </head>
 <body>
-	<h1>API Example</h1>
-	<p id="response">Bill:</p>
-
+	<h1>API Response:</h1>
+	<table id="apiResponseTable"></table>
 	<script>
-		fetch('http://localhost:8080/bills')
+		// Make an HTTP request to the API endpoint
+		fetch("http://localhost:8080/bills")
 			.then(response => response.json())
 			.then(data => {
-				document.getElementById('response').innerHTML = JSON.stringify(data);
+				// Create an HTML table element
+				const table = document.createElement("table");
+				table.border = "1";
+
+				// Add the table header row
+				const header = table.createTHead();
+				const headerRow = header.insertRow();
+				for (const key in data[0]) {
+					const th = document.createElement("th");
+					th.textContent = key;
+					headerRow.appendChild(th);
+				}
+
+				// Add the table data rows
+				const tbody = table.createTBody();
+				data.forEach(rowData => {
+					const row = tbody.insertRow();
+					for (const key in rowData) {
+						const cell = row.insertCell();
+						cell.textContent = rowData[key];
+					}
+				});
+
+				// Update the HTML element with the table
+				document.getElementById("apiResponseTable").appendChild(table);
 			})
 			.catch(error => {
-				console.error('Error:', error);
+				console.error(error);
 			});
 	</script>
 </body>
