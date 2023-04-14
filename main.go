@@ -14,6 +14,8 @@ import (
 const (
 	baseURL = "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata4/sap/api_cabillingrequest/srvd_a2x/sap/cabillingrequest/0001/CABillgRequest(%27100000000001%27)"
 	apiKey  = "rzAifWlYUCoWRwYjowGEu32wdIAqu2Nn"
+	// certFile = "C:/Windows/System32/cert.pem"
+	// keyFile  = "C:/Windows/System32/key.pem"
 )
 
 type BillingRequest struct {
@@ -51,8 +53,31 @@ func main() {
 
 	router.GET("/bills", getBillingRequest)
 
+	// srv := &http.Server{
+	// 	Addr: ":8080",
+	// 	TLSConfig: &tls.Config{
+	// 		Certificates: getCertificates(),
+	// 	},
+	// }
+
+	// go func() {
+	// 	if err := srv.ListenAndServeTLS("", ""); err != nil && err != http.ErrServerClosed {
+	// 		log.Fatalf("listen: %s\n", err)
+	// 	}
+	// }()
+
 	router.Run(":8080")
+	// router.RunTLS(":8080", certFile, keyFile)
 }
+
+// func getCertificates() []tls.Certificate {
+// 	cert, err := tls.LoadX509KeyPair(certFile, keyFile)
+// 	if err != nil {
+// 		log.Fatalf("server: loadkeys: %s", err)
+// 	}
+
+// 	return []tls.Certificate{cert}
+// }
 
 func getBillingRequest(c *gin.Context) {
 	req, err := http.NewRequest("GET", baseURL, nil)
@@ -64,7 +89,6 @@ func getBillingRequest(c *gin.Context) {
 	req.Header.Set("APIKey", apiKey)
 	req.Header.Set("DataServiceVersion", "2.0")
 	req.Header.Set("Content-Type", "application/json")
-	// req.Header.Set("Access-Control-Allow-Origin", "https://aphale98.github.io/SapAPI/")
 
 	client := http.Client{}
 	resp, err := client.Do(req)
@@ -99,6 +123,5 @@ func getBillingRequest(c *gin.Context) {
 
 	strArr := strings.Split(string(bills), " ")
 
-	fmt.Println(strArr)
 	c.JSON(http.StatusOK, strArr)
 }
